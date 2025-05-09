@@ -1,0 +1,33 @@
+#!/bin/bash
+
+{{if eq .chezmoi.hostname "msi"}}
+# Set the current desktop environment variable for Sway
+export XDG_CURRENT_DESKTOP=sway
+
+LEFT_MONITOR="DP-1"
+MIDDLE_MONITOR="eDP-1"
+RIGHT_MONITOR="HDMI-A-1"
+
+# Set resolution, refresh rate, and position the monitors
+
+swaymsg output "$LEFT_MONITOR" resolution 2560x1440@165Hz position 0 0 enable
+swaymsg output "$MIDDLE_MONITOR" resolution 1920x1080@144Hz position 2560 0 enable
+swaymsg output "$RIGHT_MONITOR" resolution 1920x1080@144Hz position 4480 0 enable
+
+# Move workspace 1 to the left monitor and set it up
+swaymsg workspace number 1
+swaymsg move workspace to output "$LEFT_MONITOR"
+swaymsg layout tabbed
+
+# Setup workspace 2 on default (will open where focused)
+swaymsg workspace number 2
+swaymsg move workspace to output "$MIDDLE_MONITOR"
+swaymsg layout tabbed
+
+swaymsg workspace number 3
+swaymsg move workspace to output "$RIGHT_MONITOR"
+swaymsg layout tabbed
+
+{{else if eq .chezmoi.hostname "framewore"}}
+#to add
+{{end}}

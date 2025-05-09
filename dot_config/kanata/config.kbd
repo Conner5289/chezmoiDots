@@ -1,0 +1,70 @@
+(defsrc
+ caps
+ Space
+ alt
+ a
+ s
+ d
+ f
+ g
+ h
+ j
+ k
+ l
+ ;
+)
+
+(defalias
+ escctrl (tap-hold 100 100 esc lctrl)
+ spacelayer (tap-hold 100 300 Space (layer-toggle sym_layer))  
+ numbers (tap-dance 300 (alt (layer-toggle alt-numbers)))
+)
+
+(deflayer base
+ @escctrl
+ @spacelayer
+ @numbers
+ a
+ s
+ d
+ f
+ g
+ h
+ j
+ k
+ l
+ ;
+)
+
+(deflayer sym_layer
+  _               ;; caps: transparent
+  _               ;; spc: transparent
+  _
+  S-2	;; a: @
+  S-1	;; s: !
+  S-5	;; d: %  
+  S-9	;; f: (
+  [		;; g: [
+  S-[	;; h: {
+  =		;; j: =
+  S-=	;; k: +
+  -		;; l: -
+  S--	;; ;: _
+  )	
+
+(deflayer alt-numbers
+_
+_
+_
+1	;; a
+2   ;; s
+3   ;; d
+4	;; f
+5   ;; g
+6   ;; h
+7	;; j
+8   ;; k
+9   ;; l
+0	;; ;
+)
+

@@ -1,0 +1,179 @@
+
+# Sway config file
+#
+# Please see https://github.com/swaywm/sway/wiki for a complete reference!
+set $mod Mod4
+set $WAYLAND_DISPLAY wayland-1
+
+# Input configuration for your touchpad (natural scrolling disabled as per your preference)
+
+# GTK Theme
+set $GTK_THEME Arc-Dark
+exec_always --no-startup-id export GTK_THEME=$GTK_THEME
+input type:keyboard xkb_numlock enabled
+
+# Rofi as application launcher
+bindsym $mod+space exec rofi -show drun
+
+# Start a terminal
+bindsym $mod+Return exec warp-terminal
+
+bindsym $mod+Escape exec brave-browser
+
+bindsym $mod+shift+s exec /home/conner/Bin/screenShot
+
+#screenShot
+
+# Font for window titles. Will also be used by waybar unless overridden.
+font pango:Hack Nerd Font Mono 16
+
+# Autostart applications using sway's exec command (instead of dex for X11)
+exec --no-startup-id nm-applet  # Can remove if using waybar with network module
+exec --no-startup-id blueman-applet  # Bluetooth management
+exec --no-startup-id pipewire  # Audio management
+
+# Screen locking with swaylock and power management with swayidle
+# exec --no-startup-id swayidle -w \
+#     timeout 300 'swaylock -f -c 000000' \
+#     timeout 600 'swaymsg "output * dpms off"' \
+#     resume 'swaymsg "output * dpms on"' \
+#     before-sleep 'swaylock -f -c 000000'
+
+# Floating modifier (Mod4 key for dragging floating windows with the mouse)
+floating_modifier $mod
+
+
+# Kill focused window
+bindsym $mod+q kill
+
+# Change focus between windows
+# bindsym $mod+h focus left
+# bindsym $mod+j focus down
+# bindsym $mod+k focus up
+# bindsym $mod+l focus right
+
+# Focus only within the current monitor (output) when using Mod+h/l
+bindsym $mod+l focus right
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+
+
+# Move focused window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# Split window horizontally/vertically
+# bindsym $mod+ctrl+h split h
+bindsym $mod+ctrl+v split v
+
+# Toggle fullscreen mode for the focused container
+
+# Change container layout (stacked, tabbed, toggle split)
+bindsym $mod+t layout tabbed
+bindsym $mod+s layout toggle split
+bindsym $mod+f floating toggle
+
+# Toggle tiling/floating mode
+bindsym $mod+Shift+space floating toggle
+
+# Focus the parent container
+bindsym $mod+p focus parent
+
+# Workspace definitions
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# Switch to workspace
+# bindsym $mod+1 workspace number $ws1
+# bindsym $mod+2 workspace number $ws2
+# bindsym $mod+3 workspace number $ws3
+# bindsym $mod+4 workspace number $ws4
+# bindsym $mod+5 workspace number $ws5
+# bindsym $mod+6 workspace number $ws6
+# bindsym $mod+7 workspace number $ws7
+# bindsym $mod+8 workspace number $ws8
+# bindsym $mod+9 workspace number $ws9
+# bindsym $mod+0 workspace number $ws10
+
+
+# Move the fouces to different workspaces
+bindsym $mod+Ctrl+h workspace prev
+bindsym $mod+Ctrl+l workspace next
+
+# Move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+# Reload the configuration file
+bindsym $mod+Shift+c reload
+
+# Restart Sway in place
+bindsym $mod+Shift+r restart
+
+# Exit Sway
+bindsym $mod+Shift+e exec "swaymsg exit"
+
+# Resize window mode
+mode "resize" {
+    bindsym j resize shrink width 10px
+    bindsym k resize grow height 10px
+    bindsym l resize shrink height 10px
+    bindsym semicolon resize grow width 10px
+    bindsym Left resize shrink width 10px
+    bindsym Down resize grow height 10px
+    bindsym Up resize shrink height 10px
+    bindsym Right resize grow width 10px
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+
+exec systemctl --user import-environment DISPLAY
+exec waybar
+exec swaync
+
+exec /home/conner/.config/sway/start
+
+{{if eq .chezmoi.hostname "msi"}}
+
+# Media keys
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+bindsym XF86AudioStop exec playerctl stop
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+exec swaybg -i /home/conner/walls/solarized/a_red_sun_over_mountains.jpg -m fill
+
+{{else if eq .chezmoi.hostname "framework"}}
+#to add
+
+{{end}}
+
+
+
+
+
+
+

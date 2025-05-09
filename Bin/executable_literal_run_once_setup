@@ -1,0 +1,48 @@
+#!/bin/bash
+set -euo pipefail
+IFS=$'\n\t'
+
+sudo -v
+
+if command -v dnf &>/dev/null; then
+	PKG_MANAGER="dnf"
+	INSTALL_CMD="sudo dnf install -y"
+	ENABLE_COPR="sudo dnf copr enable atim/starship -y"
+elif command -v apt &>/dev/null; then
+	PKG_MANAGER="apt"
+	INSTALL_CMD="sudo apt install -y"
+	ENABLE_COPR="echo 'Skipping COPR enable: not applicable for apt-based systems'"
+else
+	echo "Unsupported package manager"
+	exit 1
+fi
+
+echo "Using $PKG_MANAGER to install packages..."
+
+$INSTALL_CMD lua neovim ranger rust cargo bat zsh zoxide eza rofi sway btop waybar
+
+if [[ "$PKG_MANAGER" == "dnf" ]]; then
+	sudo dnf config-manager addrepo --from-repofile=https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
+	sudo dnf install brave-browser
+fi
+
+if ! command -v kanata &>/dev/null; then
+	cargo install kanata
+fi
+
+eval "$ENABLE_COPR"
+$INSTALL_CMD starship
+
+if [ "$SHELL" != "$(which zsh)" ]; then
+	chsh -s "$(which zsh)"
+fi
+
+if [ ! -d "$HOME/.sdkman" ]; then
+	curl -s "https://get.sdkman.io" | bash
+fi
+
+git config --global user.email "conneryule@gmail.com"
+git config --global user.name "conner yule"
+
+echo "Current shell: $SHELL"
+echo "Now install Warp manually (not covered by this script)."
